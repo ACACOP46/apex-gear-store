@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+    <title>CineBeam — Portable Mini Projector | APEX GEAR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --pdp-bg: #0a0a0f;
+            --pdp-accent: #c9a55c;
+            --pdp-text: #ffffff;
+            --pdp-text-muted: rgba(255, 255, 255, 0.6);
+            --pdp-card-bg: rgba(255, 255, 255, 0.03);
+            --pdp-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--pdp-bg);
+            color: var(--pdp-text);
+        }
+
+        .pdp-hero {
+            padding: 140px 0 80px;
+            background: radial-gradient(circle at top right, rgba(201, 165, 92, 0.05), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(201, 165, 92, 0.05), transparent 40%);
+        }
+
+        .pdp-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        /* Gallery */
+        .pdp-gallery {
+            position: sticky;
+            top: 100px;
+        }
+
+        .main-image-container {
+            background: var(--pdp-card-bg);
+            border: 1px solid var(--pdp-border);
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .main-image-container img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        .main-image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .thumbnail {
+            background: var(--pdp-card-bg);
+            border: 1px solid var(--pdp-border);
+            border-radius: 10px;
+            aspect-ratio: 1/1;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: var(--pdp-accent);
+            box-shadow: 0 0 15px rgba(201, 165, 92, 0.3);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Info */
+        .pdp-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .pdp-badge {
+            display: inline-block;
+            background: var(--pdp-accent);
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            width: fit-content;
+        }
+
+        .pdp-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        .pdp-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--pdp-accent);
+            font-size: 14px;
+        }
+
+        .pdp-rating span {
+            color: var(--pdp-text-muted);
+        }
+
+        .pdp-price {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .price-original {
+            text-decoration: line-through;
+            color: var(--pdp-text-muted);
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .price-save {
+            color: #4ade80;
+            font-size: 14px;
+            font-weight: 600;
+            background: rgba(74, 222, 128, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .pdp-desc {
+            color: var(--pdp-text-muted);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .pdp-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 25px 0;
+            border-top: 1px solid var(--pdp-border);
+            border-bottom: 1px solid var(--pdp-border);
+        }
+
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--pdp-border);
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            border-color: var(--pdp-accent);
+            color: var(--pdp-accent);
+        }
+
+        .qty-input {
+            width: 40px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .btn-add-pdp {
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: 700;
+            background: var(--pdp-accent);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(201, 165, 92, 0.2);
+        }
+
+        .btn-add-pdp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(201, 165, 92, 0.4);
+        }
+
+        .trust-badges {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .trust-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            color: var(--pdp-text-muted);
+            text-align: center;
+        }
+
+        .trust-item i {
+            font-size: 18px;
+            color: var(--pdp-accent);
+            margin-bottom: 5px;
+        }
+
+        /* Lifestyle Showcase */
+        .lifestyle-section {
+            padding: 100px 0;
+            background: #050508;
+        }
+
+        .lifestyle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .lifestyle-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            margin-bottom: 25px;
+        }
+
+        .lifestyle-content p {
+            color: var(--pdp-text-muted);
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .lifestyle-image {
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .lifestyle-image img {
+            width: 100%;
+            display: block;
+        }
+
+        .lifestyle-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+
+        /* Features */
+        .features-section {
+            padding: 100px 0;
+        }
+
+        .features-grid-pdp {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .feature-item-pdp {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--pdp-card-bg);
+            border: 1px solid var(--pdp-border);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item-pdp:hover {
+            transform: translateY(-10px);
+            border-color: var(--pdp-accent);
+            background: rgba(201, 165, 92, 0.05);
+        }
+
+        .feature-icon-pdp {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-item-pdp h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .feature-item-pdp p {
+            font-size: 14px;
+            color: var(--pdp-text-muted);
+            line-height: 1.5;
+        }
+
+        /* Specs Table */
+        .specs-section {
+            padding: 80px 0;
+            background: #050508;
+        }
+
+        .specs-table {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto 0;
+            border-collapse: collapse;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid var(--pdp-border);
+        }
+
+        .specs-table td {
+            padding: 20px;
+        }
+
+        .specs-label {
+            font-weight: 700;
+            width: 40%;
+            color: var(--pdp-accent);
+        }
+
+        .specs-value {
+            color: var(--pdp-text);
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 100px 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 40px auto 0;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--pdp-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            background: var(--pdp-card-bg);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.01);
+            color: var(--pdp-text-muted);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px 25px;
+            max-height: 200px;
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Sticky Bar */
+        .sticky-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: none;
+            z-index: 1000;
+            border-top: 1px solid var(--pdp-border);
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .pdp-grid, .lifestyle-grid, .features-grid-pdp {
+                grid-template-columns: 1fr;
+            }
+
+            .pdp-hero {
+                padding-top: 100px;
+            }
+
+            .pdp-gallery {
+                position: static;
+            }
+
+            .lifestyle-content h2 {
+                font-size: 32px;
+            }
+
+            .sticky-bar {
+                display: flex;
+            }
+
+            .pdp-actions .btn-add-pdp {
+                display: none;
+            }
+
+            .lifestyle-section {
+                padding: 60px 0;
+            }
+        }
+
+        .sticky-price {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sticky-price .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--pdp-accent);
+        }
+
+        .btn-sticky-add {
+            background: var(--pdp-accent);
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">APEX<span>GEAR</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#why-us">Why Us</a></li>
+            <li><a href="index.html#reviews">Reviews</a></li>
+            <li><a href="index.html#about">About</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="index.html#products" class="nav-cta">Shop Now</a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== PDP HERO ==================== -->
+<section class="pdp-hero">
+    <div class="container">
+        <div class="pdp-grid">
+            <!-- Left: Gallery -->
+            <div class="pdp-gallery">
+                <div class="main-image-container">
+                    <img src="https://sc02.alicdn.com/kf/A1f3ac4dff9bf43198fb6e588610bf547G.png" alt="CineBeam Portable Mini Projector" id="mainProductImg">
+                    <div class="glow-effect"></div>
+                </div>
+                <div class="thumbnail-grid">
+                    <div class="thumbnail active" onclick="updateMainImage('https://sc02.alicdn.com/kf/A1f3ac4dff9bf43198fb6e588610bf547G.png', this)">
+                        <img src="https://sc02.alicdn.com/kf/A1f3ac4dff9bf43198fb6e588610bf547G.png" alt="Angle 1">
+                    </div>
+                    <div class="thumbnail" onclick="updateMainImage('https://sc02.alicdn.com/kf/A430ba874a1f64472bed6c390421a74f1d.png', this)">
+                        <img src="https://sc02.alicdn.com/kf/A430ba874a1f64472bed6c390421a74f1d.png" alt="Lifestyle">
+                    </div>
+                    <div class="thumbnail" onclick="updateMainImage('https://sc02.alicdn.com/kf/A1f3ac4dff9bf43198fb6e588610bf547G.png', this)">
+                        <img src="https://sc02.alicdn.com/kf/A1f3ac4dff9bf43198fb6e588610bf547G.png" alt="Angle 2">
+                    </div>
+                    <div class="thumbnail" onclick="updateMainImage('https://sc02.alicdn.com/kf/A430ba874a1f64472bed6c390421a74f1d.png', this)">
+                        <img src="https://sc02.alicdn.com/kf/A430ba874a1f64472bed6c390421a74f1d.png" alt="In Use">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Info -->
+            <div class="pdp-info">
+                <div class="pdp-badge">🔥 BESTSELLER</div>
+                <h1 class="pdp-title">CineBeam — Portable Mini Projector</h1>
+                <div class="pdp-rating">
+                    ★★★★★ <span>(3,102 Verified Reviews)</span>
+                </div>
+                <div class="pdp-price">
+                    <span class="price-current">$129.99</span>
+                    <span class="price-original">$299.99</span>
+                    <span class="price-save">SAVE 57%</span>
+                </div>
+                <p class="pdp-desc">
+                    Transform any room into a cinematic experience with the CineBeam. Featuring native 1080P resolution, WiFi 6 connectivity, and a massive 200" projection, it's the ultimate entertainment powerhouse that fits in the palm of your hand.
+                </p>
+
+                <div class="pdp-actions">
+                    <div class="qty-selector">
+                        <span style="font-weight: 600;">Quantity:</span>
+                        <button class="qty-btn" onclick="adjustQty(-1)">−</button>
+                        <span class="qty-input" id="qtyVal">1</span>
+                        <button class="qty-btn" onclick="adjustQty(1)">+</button>
+                    </div>
+                    <button class="btn-add-pdp">Add To Cart</button>
+                    <div class="trust-badges">
+                        <div class="trust-item"><i>🚚</i>Free Shipping</div>
+                        <div class="trust-item"><i>🛡️</i>1 Year Warranty</div>
+                        <div class="trust-item"><i>🔄</i>30-Day Returns</div>
+                    </div>
+                </div>
+
+                <div class="pdp-highlights">
+                    <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px;">
+                        <li>✅ Native 1080P Full HD Resolution</li>
+                        <li>✅ 200" Giant Screen Projection</li>
+                        <li>✅ WiFi 6 + Bluetooth 5.2 Wireless Casting</li>
+                        <li>✅ Built-in Hi-Fi Stereo Speakers</li>
+                        <li>✅ 30,000-Hour Long-Life LED Lamp</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== LIFESTYLE SHOWCASE ==================== -->
+<section class="lifestyle-section">
+    <div class="container">
+        <div class="lifestyle-grid">
+            <div class="lifestyle-content">
+                <p class="section-tag">CINEMA ANYWHERE</p>
+                <h2>Your Private Theater, <span class="gradient-text">Redefined</span></h2>
+                <p>Gone are the days of bulky, complicated setups. The CineBeam is designed for the modern lifestyle. Whether it's a backyard movie night under the stars, an immersive gaming session, or a cozy evening in bed, the CineBeam delivers crisp, vibrant visuals wherever you go.</p>
+                <p>With its ultra-portable design weighing just 1.2 lbs, you can take the big screen experience to the office, a friend's house, or on your next vacation.</p>
+                <div class="hero-buttons">
+                    <a href="#buy" class="btn btn-primary">Experience CineBeam</a>
+                </div>
+            </div>
+            <div class="lifestyle-image">
+                <img src="https://sc02.alicdn.com/kf/A430ba874a1f64472bed6c390421a74f1d.png" alt="CineBeam Lifestyle">
+                <div class="lifestyle-overlay"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FEATURES ==================== -->
+<section class="features-section">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-tag">PACKED WITH FEATURES</p>
+            <h2 class="section-title">Small Size, <span class="gradient-text">Massive Power</span></h2>
+        </div>
+        <div class="features-grid-pdp">
+            <div class="feature-item-pdp">
+                <span class="feature-icon-pdp">📺</span>
+                <h3>Native 1080P</h3>
+                <p>Crystal clear visuals with support for 4K input. Every detail comes to life.</p>
+            </div>
+            <div class="feature-item-pdp">
+                <span class="feature-icon-pdp">📶</span>
+                <h3>WiFi 6 Support</h3>
+                <p>Lag-free streaming and lightning-fast casting from your smartphone or laptop.</p>
+            </div>
+            <div class="feature-item-pdp">
+                <span class="feature-icon-pdp">🔊</span>
+                <h3>Hi-Fi Stereo</h3>
+                <p>Powerful built-in speakers provide immersive audio without external gear.</p>
+            </div>
+            <div class="feature-item-pdp">
+                <span class="feature-icon-pdp">🪄</span>
+                <h3>Auto Keystone</h3>
+                <p>Perfectly rectangular image every time, even when projecting from an angle.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SPECS ==================== -->
+<section class="specs-section">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-tag">TECHNICAL DETAILS</p>
+            <h2 class="section-title">Full <span class="gradient-text">Specifications</span></h2>
+        </div>
+        <table class="specs-table">
+            <tr>
+                <td class="specs-label">Resolution</td>
+                <td class="specs-value">Native 1920 x 1080 (4K Supported)</td>
+            </tr>
+            <tr>
+                <td class="specs-label">Brightness</td>
+                <td class="specs-value">9,500 Lumens / 350 ANSI</td>
+            </tr>
+            <tr>
+                <td class="specs-label">Projection Size</td>
+                <td class="specs-value">40" – 200" (Optimal at 100")</td>
+            </tr>
+            <tr>
+                <td class="specs-label">Speakers</td>
+                <td class="specs-value">Dual 5W Hi-Fi Stereo Speakers</td>
+            </tr>
+            <tr>
+                <td class="specs-label">Connectivity</td>
+                <td class="specs-value">WiFi 6, Bluetooth 5.2, HDMI, USB, 3.5mm Aux</td>
+            </tr>
+            <tr>
+                <td class="specs-label">Weight</td>
+                <td class="specs-value">1.2 lbs (0.54 kg)</td>
+            </tr>
+            <tr>
+                <td class="specs-label">Lamp Life</td>
+                <td class="specs-value">30,000+ Hours (LED)</td>
+            </tr>
+            <tr>
+                <td class="specs-label">Warranty</td>
+                <td class="specs-value">1-Year APEX Protection Plan</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<!-- ==================== REVIEWS ==================== -->
+<section class="reviews" id="reviews">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-tag">CUSTOMER REVIEWS</p>
+            <h2 class="section-title">Real Stories, <span class="gradient-text">Real Results</span></h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"I was skeptical about the price, but this thing is incredible. The brightness is enough for daytime use with curtains closed, and the 1080P is actually native. My PS5 looks great on it!"</p>
+                <div class="review-author">
+                    <div class="author-avatar">AL</div>
+                    <div><strong>Alex L.</strong><p>Verified Buyer</p></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Movie nights in the backyard have never been this good. The projector is bright, clear, and the speakers are surprisingly powerful. My kids think we have our own cinema!"</p>
+                <div class="review-author">
+                    <div class="author-avatar">SR</div>
+                    <div><strong>Sarah R.</strong><p>Verified Buyer</p></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"The WiFi 6 makes a huge difference. Zero lag when casting from my iPhone. It's so small I take it to work for presentations too. Truly a versatile piece of gear."</p>
+                <div class="review-author">
+                    <div class="author-avatar">MK</div>
+                    <div><strong>Mark K.</strong><p>Verified Buyer</p></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Best purchase of the year. The auto-keystone works like magic. I just point it at the wall and it fixes itself. No more messing with focus for 10 minutes."</p>
+                <div class="review-author">
+                    <div class="author-avatar">EB</div>
+                    <div><strong>Emma B.</strong><p>Verified Buyer</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-tag">COMMON QUESTIONS</p>
+            <h2 class="section-title">Everything You <span class="gradient-text">Need to Know</span></h2>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Does it work with Netflix and Disney+?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Yes! You can stream directly via WiFi casting or by connecting a streaming stick (like FireStick or Roku) to the HDMI port for the best experience.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How big can the projection actually go?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    The CineBeam can project up to 200 inches. For the best clarity and brightness, we recommend a size between 80 to 120 inches.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Can I use it outdoors?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Absolutely! It's perfect for outdoor movie nights. Just ensure you have a power source and a relatively flat surface to project onto.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Do I need external speakers?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    The CineBeam features built-in Hi-Fi stereo speakers that are plenty loud for most rooms. You can also connect external speakers via Bluetooth or the 3.5mm Aux port for a true surround sound experience.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Is it compatible with gaming consoles?
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Yes, the CineBeam has a high-speed HDMI port that is compatible with PS5, Xbox, Nintendo Switch, and PCs, with minimal input lag for a great gaming experience.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== YOU MAY ALSO LIKE ==================== -->
+<section class="products" style="background: #050508;">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-tag">RECOMMENDED</p>
+            <h2 class="section-title">You May Also <span class="gradient-text">Like</span></h2>
+        </div>
+        <div class="product-grid">
+            <!-- Product 1: Sauna Blanket -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://sc02.alicdn.com/kf/A346a28b642e842ebb2ce6dc36ea4cccaS.png" alt="Sauna Blanket" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Infrared Sauna Blanket</h3>
+                    <div class="product-pricing">
+                        <span class="price-current">$199.99</span>
+                    </div>
+                    <a href="product-sauna-blanket.html" class="btn btn-outline" style="width: 100%; margin-top: 15px;">View Product</a>
+                </div>
+            </div>
+            <!-- Product 2: Smart Glasses -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png" alt="Smart Glasses" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Vision X Smart Glasses</h3>
+                    <div class="product-pricing">
+                        <span class="price-current">$149.99</span>
+                    </div>
+                    <a href="product-smart-glasses.html" class="btn btn-outline" style="width: 100%; margin-top: 15px;">View Product</a>
+                </div>
+            </div>
+            <!-- Product 3: Precision Cutter -->
+            <div class="product-card">
+                <div class="product-image-wrapper">
+                    <img src="https://sc02.alicdn.com/kf/Af15490ca72ab482daaf126c504c5fa73o.png" alt="Precision Cutter" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">SnapCut Pro Cutter</h3>
+                    <div class="product-pricing">
+                        <span class="price-current">$79.95</span>
+                    </div>
+                    <a href="product-cutter.html" class="btn btn-outline" style="width: 100%; margin-top: 15px;">View Product</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">APEX<span>GEAR</span></a>
+                <p>Premium products for an extraordinary life. Curated, tested, delivered worldwide.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="TikTok">🎵</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="Facebook">📘</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Shop</h4>
+                <a href="product-sauna-blanket.html">Sauna Blanket</a>
+                <a href="product-smart-glasses.html">Smart Glasses</a>
+                <a href="product-projector.html">Mini Projector</a>
+                <a href="product-cutter.html">Precision Cutter</a>
+            </div>
+            <div class="footer-links">
+                <h4>Help</h4>
+                <a href="#">FAQ</a>
+                <a href="#">Shipping Info</a>
+                <a href="#">Returns & Refunds</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="index.html#about">About Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Affiliate Program</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 APEX GEAR. All rights reserved.</p>
+            <div class="payment-icons">
+                <span>💳 Visa</span>
+                <span>💳 Mastercard</span>
+                <span>🅿️ PayPal</span>
+                <span>🍎 Apple Pay</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- STICKY MOBILE BAR -->
+<div class="sticky-bar">
+    <div class="sticky-price">
+        <span style="font-size: 12px; color: var(--pdp-text-muted);">CineBeam Projector</span>
+        <span class="price">$129.99</span>
+    </div>
+    <a href="#" class="btn-sticky-add">Add to Cart</a>
+</div>
+
+<script src="script.js"></script>
+<script>
+    function updateMainImage(src, thumb) {
+        document.getElementById('mainProductImg').src = src;
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    }
+
+    function adjustQty(change) {
+        const qtyEl = document.getElementById('qtyVal');
+        let qty = parseInt(qtyEl.innerText);
+        qty = Math.max(1, qty + change);
+        qtyEl.innerText = qty;
+    }
+
+    function toggleFaq(el) {
+        const item = el.parentElement;
+        item.classList.toggle('active');
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+    <title>Vision X — Smart Recording Glasses | APEX GEAR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Product Page Specific Styles */
+        .product-hero { padding: 140px 0 80px; background: var(--bg); }
+        .product-main-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
+        
+        /* Gallery */
+        .product-gallery { position: sticky; top: 100px; }
+        .main-image-container { 
+            background: var(--bg-card); 
+            border-radius: var(--radius); 
+            overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-image-container img { width: 100%; height: 100%; object-fit: contain; transition: var(--transition); }
+        .thumbnail-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .thumbnail { 
+            aspect-ratio: 1/1; 
+            border-radius: var(--radius-sm); 
+            overflow: hidden; 
+            cursor: pointer; 
+            border: 2px solid transparent;
+            background: var(--bg-card);
+            transition: var(--transition);
+        }
+        .thumbnail.active { border-color: var(--accent); }
+        .thumbnail img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .thumbnail:hover img, .thumbnail.active img { opacity: 1; }
+
+        /* Product Info */
+        .product-details-content .section-tag { margin-bottom: 12px; }
+        .product-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 10px; }
+        .product-meta { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+        .product-stars { color: var(--accent); font-size: 1.1rem; }
+        .review-count { color: var(--text-muted); font-size: 0.9rem; }
+        .product-price-block { margin-bottom: 30px; }
+        .price-row { display: flex; align-items: center; gap: 15px; }
+        .current-price { font-size: 2.5rem; font-weight: 800; color: var(--text); }
+        .original-price { font-size: 1.2rem; color: var(--text-muted); text-decoration: line-through; }
+        .save-badge { background: #ff4444; color: white; padding: 4px 12px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; }
+        
+        .color-selector { margin-bottom: 30px; }
+        .selector-label { display: block; font-weight: 600; margin-bottom: 12px; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .color-options { display: flex; gap: 12px; }
+        .color-btn { 
+            width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); 
+            cursor: pointer; transition: var(--transition); position: relative;
+        }
+        .color-btn.active { border-color: var(--accent); transform: scale(1.1); }
+        .color-btn[data-color="Black"] { background: #111; }
+        .color-btn[data-color="Silver"] { background: #c0c0c0; }
+        .color-btn[data-color="Tortoise"] { background: #5d3a1a; }
+        
+        .purchase-actions { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
+        .quantity-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+        .quantity-btn { 
+            width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
+            background: transparent; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .quantity-input { width: 40px; text-align: center; background: transparent; border: none; color: white; font-weight: 700; font-size: 1.1rem; }
+        
+        .trust-badges { 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
+            padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .trust-item { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--text-muted); }
+        .trust-icon { font-size: 1.2rem; }
+
+        /* Icon Grid */
+        .tech-specs-section { padding: 80px 0; background: var(--surface); }
+        .specs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .spec-item { text-align: center; padding: 30px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); }
+        .spec-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+        .spec-item h4 { font-size: 1rem; margin-bottom: 8px; color: var(--accent); }
+        .spec-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Lifestyle Section */
+        .lifestyle-section { position: relative; padding: 120px 0; overflow: hidden; }
+        .lifestyle-bg { position: absolute; inset: 0; z-index: -1; }
+        .lifestyle-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
+        .lifestyle-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 20%, transparent 100%); }
+        .lifestyle-content { max-width: 600px; }
+
+        /* Specs Table */
+        .specs-table-section { padding: 100px 0; background: var(--bg); }
+        .table-container { max-width: 800px; margin: 0 auto; }
+        .specs-table { width: 100%; border-collapse: collapse; }
+        .specs-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .specs-table td { padding: 20px 0; }
+        .spec-label { font-weight: 700; color: var(--text-muted); width: 40%; }
+        .spec-value { color: var(--text); }
+
+        /* FAQ Accordion */
+        .faq-section { padding: 100px 0; background: var(--surface); }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--bg-card); border-radius: var(--radius-sm); margin-bottom: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .faq-question { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: var(--transition); }
+        .faq-question:hover { background: var(--bg-card-hover); }
+        .faq-question h4 { font-size: 1rem; margin: 0; }
+        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: all 0.4s ease; color: var(--text-muted); font-size: 0.95rem; }
+        .faq-item.active .faq-answer { padding: 0 25px 20px; max-height: 200px; }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+
+        /* Related Products */
+        .related-section { padding: 100px 0; background: var(--bg); }
+
+        /* Sticky Bar */
+        .sticky-cart-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(18, 18, 26, 0.95); backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(201, 165, 92, 0.2);
+            padding: 12px 24px; z-index: 1000;
+            display: none; transform: translateY(100%); transition: transform 0.4s ease;
+        }
+        .sticky-cart-bar.visible { transform: translateY(0); display: block; }
+        .sticky-container { display: flex; align-items: center; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+        .sticky-info { display: flex; align-items: center; gap: 15px; }
+        .sticky-img { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; border: 1px solid var(--accent); }
+        .sticky-price { font-weight: 800; font-size: 1.1rem; color: var(--accent); }
+
+        @media (max-width: 968px) {
+            .product-main-grid { grid-template-columns: 1fr; gap: 40px; }
+            .product-gallery { position: relative; top: 0; }
+            .specs-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-title { font-size: 2.5rem; }
+        }
+        @media (max-width: 640px) {
+            .specs-grid { grid-template-columns: 1fr; }
+            .lifestyle-content { text-align: center; }
+            .lifestyle-overlay { background: rgba(10,10,15,0.7); }
+            .sticky-cart-bar.visible { display: block; }
+            .sticky-info h4 { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">APEX<span>GEAR</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#why-us">Why Us</a></li>
+            <li><a href="index.html#reviews">Reviews</a></li>
+            <li><a href="index.html#about">About</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="index.html#products" class="nav-cta">Shop Now</a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== PRODUCT HERO ==================== -->
+<section class="product-hero">
+    <div class="container">
+        <div class="product-main-grid">
+            <!-- Left: Gallery -->
+            <div class="product-gallery">
+                <div class="main-image-container" id="mainImage">
+                    <img src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png" alt="Vision X Smart Recording Glasses">
+                </div>
+                <div class="thumbnail-grid">
+                    <div class="thumbnail active" data-src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png">
+                        <img src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png" alt="Main View">
+                    </div>
+                    <div class="thumbnail" data-src="https://sc02.alicdn.com/kf/Adee5994f40524702b8d9f2643704b3e6Q.png">
+                        <img src="https://sc02.alicdn.com/kf/Adee5994f40524702b8d9f2643704b3e6Q.png" alt="Lifestyle View">
+                    </div>
+                    <!-- Placeholders for more thumbnails if needed -->
+                    <div class="thumbnail" data-src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png">
+                        <img src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png" alt="Side View" style="filter: grayscale(0.5) hue-rotate(90deg);">
+                    </div>
+                    <div class="thumbnail" data-src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png">
+                        <img src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png" alt="Packaging" style="filter: brightness(0.5);">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Product Info -->
+            <div class="product-details-content">
+                <p class="section-tag">⚡ NEW ARRIVAL</p>
+                <h1 class="product-title">Vision X — Smart Recording Glasses</h1>
+                
+                <div class="product-meta">
+                    <div class="product-stars">★★★★★</div>
+                    <span class="review-count">1,523 Verified Reviews</span>
+                </div>
+
+                <div class="product-price-block">
+                    <div class="price-row">
+                        <span class="current-price">$149.99</span>
+                        <span class="original-price">$349.99</span>
+                        <span class="save-badge">SAVE 57%</span>
+                    </div>
+                    <p style="color: #00e676; font-size: 0.9rem; font-weight: 700; margin-top: 5px;">🔥 Limited Time Offer — Only 12 Units Left!</p>
+                </div>
+
+                <p class="product-desc" style="font-size: 1.1rem; margin-bottom: 30px;">
+                    Experience the future of content creation. The Vision X allows you to capture life's most precious moments in stunning 4K Ultra-HD, exactly as you see them. Stylish, discreet, and powerful.
+                </p>
+
+                <div class="color-selector">
+                    <span class="selector-label">Frame Color: <span id="colorName" style="color: white;">Black</span></span>
+                    <div class="color-options">
+                        <div class="color-btn active" data-color="Black" title="Black"></div>
+                        <div class="color-btn" data-color="Silver" title="Silver"></div>
+                        <div class="color-btn" data-color="Tortoise" title="Tortoise"></div>
+                    </div>
+                </div>
+
+                <div class="purchase-actions">
+                    <div class="quantity-wrapper">
+                        <button class="quantity-btn" id="minus">-</button>
+                        <input type="number" class="quantity-input" value="1" id="qty" min="1">
+                        <button class="quantity-btn" id="plus">+</button>
+                    </div>
+                    <button class="btn btn-primary btn-glow" style="width: 100%; justify-content: center; font-size: 1.1rem; padding: 18px;">
+                        Add to Cart — $149.99
+                    </button>
+                    <button class="btn btn-outline" style="width: 100%; justify-content: center;">
+                        Buy with Apple Pay
+                    </button>
+                </div>
+
+                <div class="trust-badges">
+                    <div class="trust-item"><span class="trust-icon">✈️</span> Free Express Shipping</div>
+                    <div class="trust-item"><span class="trust-icon">🛡️</span> 30-Day Money Back</div>
+                    <div class="trust-item"><span class="trust-icon">🔒</span> Secure Checkout</div>
+                    <div class="trust-item"><span class="trust-icon">💬</span> 24/7 Priority Support</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== TECH SPECS ICON GRID ==================== -->
+<section class="tech-specs-section">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-tag">ENGINEERING MARVEL</p>
+            <h2 class="section-title">Tech Specs That <span class="gradient-text">Impress</span></h2>
+        </div>
+        <div class="specs-grid">
+            <div class="spec-item">
+                <span class="spec-icon">📷</span>
+                <h4>4K Ultra-HD</h4>
+                <p>60fps crystal clear video with EIS stabilization.</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">🕶️</span>
+                <h4>UV400 Polarized</h4>
+                <p>Anti-glare lenses for superior optical clarity.</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">🔊</span>
+                <h4>Bone Conduction</h4>
+                <p>High-fidelity audio without blocking your ears.</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">🔋</span>
+                <h4>8-Hour Battery</h4>
+                <p>Extended life for all-day adventures and recording.</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">💧</span>
+                <h4>IP67 Waterproof</h4>
+                <p>Ready for rain, splashes, and dusty trails.</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">👆</span>
+                <h4>One-Touch Control</h4>
+                <p>Single button for instant recording and photos.</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">💾</span>
+                <h4>128GB Storage</h4>
+                <p>Store up to 20 hours of high-definition footage.</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">📱</span>
+                <h4>Companion App</h4>
+                <p>Instant wireless transfer to iOS & Android.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== LIFESTYLE SHOWCASE ==================== -->
+<section class="lifestyle-section">
+    <div class="lifestyle-bg">
+        <img src="https://sc02.alicdn.com/kf/Adee5994f40524702b8d9f2643704b3e6Q.png" alt="Lifestyle Showcase">
+        <div class="lifestyle-overlay"></div>
+    </div>
+    <div class="container">
+        <div class="lifestyle-content">
+            <p class="section-tag">HANDS-FREE FREEDOM</p>
+            <h2 class="section-title">Capture Life <span class="gradient-text">Hands-Free</span></h2>
+            <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px;">
+                Whether you're cycling down a mountain path, cooking a gourmet meal, or playing with your kids, Vision X captures exactly what you see. Don't let a screen come between you and the moment.
+            </p>
+            <ul style="list-style: none; color: var(--text); margin-bottom: 40px;">
+                <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: var(--accent);">✓</span> First-person perspective recording
+                </li>
+                <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: var(--accent);">✓</span> Seamless social media sharing
+                </li>
+                <li style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: var(--accent);">✓</span> Lightweight, comfortable for all-day wear
+                </li>
+            </ul>
+            <a href="#buy" class="btn btn-primary">Get Your Vision X Today</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SPECS TABLE ==================== -->
+<section class="specs-table-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Detailed <span class="gradient-text">Specifications</span></h2>
+        </div>
+        <div class="table-container">
+            <table class="specs-table">
+                <tr>
+                    <td class="spec-label">Camera</td>
+                    <td class="spec-value">12MP Sony Sensor, 4K @ 60fps, 1080P @ 120fps</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Battery</td>
+                    <td class="spec-value">500mAh Lithium Polymer (8h usage, 2h charging)</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Weight</td>
+                    <td class="spec-value">42g (Ultra-lightweight design)</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Storage</td>
+                    <td class="spec-value">128GB eMMC Built-in</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Connectivity</td>
+                    <td class="spec-value">Bluetooth 5.2, Wi-Fi 6, USB-C</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Water Resistance</td>
+                    <td class="spec-value">IP67 Dust & Water Resistant</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Warranty</td>
+                    <td class="spec-value">2-Year APEX Protection Plan Included</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== CUSTOMER REVIEWS ==================== -->
+<section class="reviews">
+    <div class="container">
+        <div class="section-header">
+            <p class="section-tag">TESTIMONIALS</p>
+            <h2 class="section-title">What Explorers <span class="gradient-text">Say</span></h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"The video quality is surprisingly good, even in low light. I use them for my bike commute and they've already captured two close calls with cars. Essential safety gear."</p>
+                <div class="review-author">
+                    <div class="author-avatar">MS</div>
+                    <div><strong>Mark S.</strong><p>Verified Buyer · Seattle</p></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Bought these for my vacation in Italy. Being able to record walking through the markets without holding a phone was brilliant. The audio is crystal clear too!"</p>
+                <div class="review-author">
+                    <div class="author-avatar">EL</div>
+                    <div><strong>Emma L.</strong><p>Verified Buyer · London</p></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Best smart glasses on the market. I've tried the Meta ones and these have better battery life and the storage is much easier to manage. Highly recommend."</p>
+                <div class="review-author">
+                    <div class="author-avatar">RJ</div>
+                    <div><strong>Ryan J.</strong><p>Verified Buyer · California</p></div>
+                </div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"The bone conduction speakers are a game changer. I can listen to my podcasts while hiking but still hear the birds and everything around me. Perfectly designed."</p>
+                <div class="review-author">
+                    <div class="author-avatar">AK</div>
+                    <div><strong>Aria K.</strong><p>Verified Buyer · Vancouver</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FAQ ACCORDION ==================== -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Common <span class="gradient-text">Questions</span></h2>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>How do I transfer videos to my phone?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    You can transfer videos instantly via the APEX App using the built-in Wi-Fi 6 connection, or connect the glasses directly to your computer using the provided USB-C cable.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Are the lenses prescription-ready?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Yes! The Vision X frames are designed to be compatible with prescription lenses. You can take them to any local optician to have the lenses replaced with your specific prescription.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>How long can I record on a single charge?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    You can record up to 90 minutes of continuous 4K video, or take over 2,000 photos. For audio-only usage, the battery lasts up to 8 hours.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Is there a recording indicator?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Yes, for privacy and status, a small, discreet internal LED (visible only to the wearer) and a tiny external front-facing LED pulse slowly when recording is active.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Is it waterproof?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    The Vision X is IP67 rated, meaning it is fully protected against dust and can withstand being submerged in 1 meter of water for up to 30 minutes. It's perfect for rain and heavy sweat.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== RELATED PRODUCTS ==================== -->
+<section class="related-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">You May Also <span class="gradient-text">Like</span></h2>
+        </div>
+        <div class="product-grid">
+            <!-- Product 1: Sauna Blanket -->
+            <div class="product-card">
+                <div class="product-badge badge-hot">🔥 BESTSELLER</div>
+                <div class="product-image-wrapper">
+                    <img src="https://sc02.alicdn.com/kf/A346a28b642e842ebb2ce6dc36ea4cccaS.png" alt="Portable Infrared Sauna Blanket" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Portable Infrared Sauna Blanket</h3>
+                    <div class="product-pricing">
+                        <span class="price-current">$199.99</span>
+                        <span class="price-original">$499.99</span>
+                    </div>
+                    <a href="product-sauna-blanket.html" class="btn btn-add-cart">View Details</a>
+                </div>
+            </div>
+            <!-- Product 3: Mini Projector -->
+            <div class="product-card">
+                <div class="product-badge badge-trending">🎬 TRENDING</div>
+                <div class="product-image-wrapper">
+                    <img src="https://sc02.alicdn.com/kf/A1f3ac4dff9bf43198fb6e588610bf547G.png" alt="Portable Mini Projector" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">CineBeam Portable Mini Projector</h3>
+                    <div class="product-pricing">
+                        <span class="price-current">$129.99</span>
+                        <span class="price-original">$299.99</span>
+                    </div>
+                    <a href="product-projector.html" class="btn btn-add-cart">View Details</a>
+                </div>
+            </div>
+            <!-- Product 4: Precision Cutter -->
+            <div class="product-card">
+                <div class="product-badge badge-limited">🏆 TOP RATED</div>
+                <div class="product-image-wrapper">
+                    <img src="https://sc02.alicdn.com/kf/Af15490ca72ab482daaf126c504c5fa73o.png" alt="SnapCut Precision Cutter" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">SnapCut Pro Precision Cutter</h3>
+                    <div class="product-pricing">
+                        <span class="price-current">$79.95</span>
+                        <span class="price-original">$159.99</span>
+                    </div>
+                    <a href="product-cutter.html" class="btn btn-add-cart">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">APEX<span>GEAR</span></a>
+                <p>Premium products for an extraordinary life. Curated, tested, delivered worldwide.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">📷</a>
+                    <a href="#" aria-label="TikTok">🎵</a>
+                    <a href="#" aria-label="Twitter">🐦</a>
+                    <a href="#" aria-label="Facebook">📘</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Shop</h4>
+                <a href="product-sauna-blanket.html">Sauna Blanket</a>
+                <a href="product-smart-glasses.html">Smart Glasses</a>
+                <a href="product-projector.html">Mini Projector</a>
+                <a href="product-cutter.html">Precision Cutter</a>
+            </div>
+            <div class="footer-links">
+                <h4>Help</h4>
+                <a href="#">FAQ</a>
+                <a href="#">Shipping Info</a>
+                <a href="#">Returns & Refunds</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="index.html#about">About Us</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Affiliate Program</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 APEX GEAR. All rights reserved.</p>
+            <div class="payment-icons">
+                <span>💳 Visa</span>
+                <span>💳 Mastercard</span>
+                <span>🅿️ PayPal</span>
+                <span>🍎 Apple Pay</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ==================== STICKY MOBILE BAR ==================== -->
+<div class="sticky-cart-bar" id="stickyBar">
+    <div class="sticky-container">
+        <div class="sticky-info">
+            <img src="https://sc02.alicdn.com/kf/Ac6aec6fd36ea410fabf33a761a47ac67T.png" alt="Vision X" class="sticky-img">
+            <div>
+                <h4 style="font-size: 0.9rem; margin: 0;">Vision X</h4>
+                <span class="sticky-price">$149.99</span>
+            </div>
+        </div>
+        <button class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">Add to Cart</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+    // Product Gallery
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImg = document.querySelector('#mainImage img');
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+            thumbnails.forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            mainImg.src = thumb.dataset.src;
+        });
+    });
+
+    // Color Selector
+    const colorBtns = document.querySelectorAll('.color-btn');
+    const colorName = document.getElementById('colorName');
+
+    colorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            colorBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            colorName.textContent = btn.dataset.color;
+        });
+    });
+
+    // Quantity
+    const qtyInput = document.getElementById('qty');
+    document.getElementById('plus').addEventListener('click', () => {
+        qtyInput.value = parseInt(qtyInput.value) + 1;
+    });
+    document.getElementById('minus').addEventListener('click', () => {
+        if (parseInt(qtyInput.value) > 1) {
+            qtyInput.value = parseInt(qtyInput.value) - 1;
+        }
+    });
+
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            faqItems.forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+        });
+    });
+
+    // Sticky Bar Visibility
+    const stickyBar = document.getElementById('stickyBar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 800) {
+            stickyBar.classList.add('visible');
+        } else {
+            stickyBar.classList.remove('visible');
+        }
+    });
+</script>
+</body>
+</html>

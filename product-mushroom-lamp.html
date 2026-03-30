@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MushGlow — Smart Mushroom Lamp | APEX GEAR</title>
+    <!-- Relative links to external files -->
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Inline styles for the specific page components -->
+    <style>
+        :root {
+            --bg-color: #0a0a0f;
+            --primary-gold: #c9a55c;
+            --text-light: #f5f5f7;
+            --text-dim: #9ca3af;
+            --card-bg: #15151e;
+            --accent-gold-dark: #b08d4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(201, 165, 92, 0.1);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--primary-gold);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        .cart-btn {
+            background: transparent;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 0.5rem 1.2rem;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .cart-btn:hover {
+            background: var(--primary-gold);
+            color: var(--bg-color);
+        }
+
+        /* Product Detail */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 4rem 0;
+        }
+
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            border-radius: 8px;
+            background: #1a1a24;
+            display: block;
+        }
+
+        .gallery-thumbs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-thumbs img {
+            width: 100%;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-thumbs img:hover {
+            opacity: 0.8;
+        }
+
+        /* Product Info */
+        .brand-tag {
+            color: var(--primary-gold);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .product-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1rem;
+        }
+
+        .review-count {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .price-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .current-price {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .original-price {
+            font-size: 1.2rem;
+            text-decoration: line-through;
+            color: var(--text-dim);
+        }
+
+        .save-tag {
+            background: #d32f2f;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 2px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .color-selector {
+            margin-bottom: 2rem;
+        }
+
+        .selector-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .color-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .color-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            padding: 2px;
+        }
+
+        .color-btn.active {
+            border-color: var(--primary-gold);
+        }
+
+        .color-btn span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .color-warm { background-color: #ffd8a8; }
+        .color-cool { background-color: #e3f2fd; }
+        .color-green { background-color: #2e7d32; }
+
+        .short-desc {
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-list {
+            margin-bottom: 2.5rem;
+            list-style: none;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .feature-list li::before {
+            content: "•";
+            color: var(--primary-gold);
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        .add-to-cart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: var(--bg-color);
+            border: none;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-gold-dark);
+        }
+
+        .low-stock {
+            color: #ff5252;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-align: center;
+        }
+
+        /* Why You'll Love It */
+        .section-why {
+            padding: 6rem 0;
+            background: #0d0d14;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+        }
+
+        .why-card {
+            background: var(--card-bg);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 4px;
+            border: 1px solid rgba(201, 165, 92, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(201, 165, 92, 0.2);
+        }
+
+        .why-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-gold);
+        }
+
+        .why-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .why-card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+        }
+
+        /* Specs Table */
+        .section-specs {
+            padding: 6rem 0;
+        }
+
+        .specs-table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .specs-table td {
+            padding: 1.2rem;
+            font-size: 1rem;
+        }
+
+        .specs-label {
+            font-weight: 600;
+            color: var(--primary-gold);
+            width: 40%;
+        }
+
+        /* Reviews */
+        .section-reviews {
+            padding: 6rem 0;
+            background: #0d0d14;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: var(--bg-color);
+            padding: 2rem;
+            border-radius: 4px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+        }
+
+        .review-date {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .review-text {
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* FAQ Accordion */
+        .section-faq {
+            padding: 6rem 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 1rem;
+        }
+
+        .faq-question {
+            padding: 1.5rem 0;
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            color: var(--text-dim);
+            padding-bottom: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding-bottom: 1.5rem;
+        }
+
+        /* Cross-sell */
+        .section-cross-sell {
+            padding: 6rem 0;
+            background: #0a0a0f;
+        }
+
+        .cross-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .cross-card {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .cross-card img {
+            width: 100%;
+            border-radius: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .cross-name {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cross-price {
+            color: var(--primary-gold);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            color: var(--text-dim);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100%;
+            background: var(--card-bg);
+            z-index: 2000;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 2rem;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1999;
+            display: none;
+        }
+
+        .cart-overlay.show {
+            display: block;
+        }
+
+        /* Instagram Save Badge */
+        .insta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(201, 165, 92, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .review-grid { grid-template-columns: 1fr; }
+            .cross-grid { grid-template-columns: repeat(2, 1fr); }
+            .cart-sidebar { width: 100%; right: -100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <a href="../index.html" class="logo">APEX GEAR</a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">About</a>
+            </div>
+            <button class="cart-btn" onclick="toggleCart()">Cart (0)</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="product-grid">
+            <!-- Gallery -->
+            <div class="product-gallery">
+                <div class="gallery-main">
+                    <img src="https://sc02.alicdn.com/kf/Ae21afece463e46499feec997153d4d39H.png" alt="MushGlow Warm Amber" id="mainImage">
+                </div>
+                <div class="gallery-thumbs">
+                    <img src="https://sc02.alicdn.com/kf/Ae21afece463e46499feec997153d4d39H.png" alt="Thumb 1" onclick="document.getElementById('mainImage').src=this.src">
+                    <img src="https://sc02.alicdn.com/kf/A1d29e9933dfe432db7a06a2cf1d5b1676.png" alt="Thumb 2" onclick="document.getElementById('mainImage').src=this.src">
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="product-info">
+                <div class="insta-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    2M+ Saves on Instagram
+                </div>
+                <span class="brand-tag">APEX GEAR</span>
+                <h1 class="product-title">MushGlow — Smart Mushroom Lamp</h1>
+                <div class="rating">
+                    <div class="stars">★★★★★</div>
+                    <span class="review-count">2,689 Reviews | 4.9 Stars</span>
+                </div>
+                <div class="price-section">
+                    <span class="current-price">$89.99</span>
+                    <span class="original-price">$179.99</span>
+                    <span class="save-tag">SAVE 50%</span>
+                </div>
+
+                <div class="color-selector">
+                    <span class="selector-label">Color: <span id="selectedColorName" style="color: var(--primary-gold);">Warm Amber</span></span>
+                    <div class="color-buttons">
+                        <button class="color-btn active" onclick="selectColor(this, 'Warm Amber')"><span class="color-warm"></span></button>
+                        <button class="color-btn" onclick="selectColor(this, 'Cool White')"><span class="color-cool"></span></button>
+                        <button class="color-btn" onclick="selectColor(this, 'Forest Green')"><span class="color-green"></span></button>
+                    </div>
+                </div>
+
+                <p class="short-desc">Illuminate your space with the ethereal glow of the MushGlow. A masterpiece of design and technology, featuring a sustainable bamboo base and 16 million customizable colors.</p>
+                
+                <ul class="feature-list">
+                    <li>App Control via Bluetooth (iOS & Android)</li>
+                    <li>16 Million Colors & Adjustable Brightness</li>
+                    <li>Built-in Wireless Charging Pad</li>
+                    <li>USB-C Rechargeable with 40hr Battery</li>
+                    <li>Sustainable Bamboo & Hand-blown Glass</li>
+                </ul>
+
+                <div class="add-to-cart-container">
+                    <div class="low-stock">
+                        <span>⚠️ Only 14 units left in stock - order soon!</span>
+                    </div>
+                    <button class="btn-primary" data-add-cart="mushglow" onclick="addToCart('mushglow')">Add to Cart</button>
+                </div>
+
+                <div class="trust-badges">
+                    <div class="badge">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                        <span>Fast Global Shipping</span>
+                    </div>
+                    <div class="badge">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <span>2-Year Warranty</span>
+                    </div>
+                    <div class="badge">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.4-1.4 1"></path><path d="M7 21h10"></path><path d="M14 3v4"></path><path d="M10 3v4"></path><path d="M12 12V3"></path><path d="M11 15v3"></path><path d="M12 21v-3"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                        <span>Eco-Friendly</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section class="section-why">
+        <div class="container">
+            <h2 class="section-title">Why You'll Love It</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">📱</div>
+                    <h3>Smart App Control</h3>
+                    <p>Customize your atmosphere from anywhere in the room. Schedule timers and create custom scenes.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">⚡</div>
+                    <h3>Wireless Charging</h3>
+                    <p>Declutter your nightstand with the integrated 15W Qi wireless charging pad built into the bamboo base.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🌿</div>
+                    <h3>Sustainable Luxury</h3>
+                    <p>Crafted from FSC-certified bamboo and recycled artisan glass. Beauty without compromise.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-specs">
+        <div class="container">
+            <h2 class="section-title">Technical Specifications</h2>
+            <table class="specs-table">
+                <tr>
+                    <td class="specs-label">Material</td>
+                    <td>FSC Bamboo, Hand-blown Recycled Glass</td>
+                </tr>
+                <tr>
+                    <td class="specs-label">Battery</td>
+                    <td>5000mAh Lithium (40hr runtime)</td>
+                </tr>
+                <tr>
+                    <td class="specs-label">Connectivity</td>
+                    <td>Bluetooth 5.0 (App control)</td>
+                </tr>
+                <tr>
+                    <td class="specs-label">Charging</td>
+                    <td>USB-C (Input), 15W Qi Wireless (Output)</td>
+                </tr>
+                <tr>
+                    <td class="specs-label">Dimensions</td>
+                    <td>210mm x 150mm</td>
+                </tr>
+                <tr>
+                    <td class="specs-label">Light Source</td>
+                    <td>RGBW LED (Lifespan: 50,000 hrs)</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <section class="section-reviews">
+        <div class="container">
+            <h2 class="section-title">Customer Reviews</h2>
+            <div class="review-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Julian V.</span>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"The perfect addition to my home office. The warm amber glow is so soothing during late night work sessions."</p>
+                    <span class="review-date">March 12, 2026</span>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Sophia K.</span>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                    <p class="review-text">"Stunning design. The wireless charging is super fast and the app is very intuitive. Worth every penny."</p>
+                    <span class="review-date">February 28, 2026</span>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Marcus T.</span>
+                        <div class="stars">★★★★☆</div>
+                    </div>
+                    <p class="review-text">"Beautiful lamp. Battery life is impressive, lasts several nights without a charge. Only wish the box was smaller."</p>
+                    <span class="review-date">January 15, 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-faq">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom: 2rem;">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Is the app compatible with my phone?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes, the MushGlow app is available for both iOS (12.0+) and Android (8.0+). You can download it by scanning the QR code in the manual.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How long does the battery last?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    The 5000mAh battery provides up to 40 hours of light on a single charge at medium brightness. Wireless charging use will deplete the battery faster if not plugged in.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Can I leave it plugged in all the time?
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    Absolutely. The MushGlow features an intelligent battery management system that prevents overcharging, making it safe for continuous plugged-in use.
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Does it work with any phone for wireless charging?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    It works with all Qi-enabled devices, including iPhone 8 and newer, Samsung Galaxy S6 and newer, and many other smartphones and earbuds.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-cross-sell">
+        <div class="container">
+            <h2 class="section-title">Complete Your Sanctuary</h2>
+            <div class="cross-grid">
+                <div class="cross-card">
+                    <img src="https://images.unsplash.com/photo-1616489953149-80860361245b?auto=format&fit=crop&q=80&w=400" alt="Diffuser">
+                    <h4 class="cross-name">ZenFlow Diffuser</h4>
+                    <p class="cross-price">$59.99</p>
+                </div>
+                <div class="cross-card">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=400" alt="Yoga Mat">
+                    <h4 class="cross-name">Apex Pro Yoga Mat</h4>
+                    <p class="cross-price">$74.99</p>
+                </div>
+                <div class="cross-card">
+                    <img src="https://images.unsplash.com/photo-1617103023188-fb6c08d8b8b4?auto=format&fit=crop&q=80&w=400" alt="Blanket">
+                    <h4 class="cross-name">Weighted Cloud Blanket</h4>
+                    <p class="cross-price">$129.99</p>
+                </div>
+                <div class="cross-card">
+                    <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=80&w=400" alt="Journal">
+                    <h4 class="cross-name">Midnight Leather Journal</h4>
+                    <p class="cross-price">$34.99</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 APEX GEAR. All Rights Reserved.</p>
+            <p style="margin-top: 1rem; font-size: 0.8rem;">Designed for the modern minimalist.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Elements -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" onclick="toggleCart()">&times;</button>
+        </div>
+        <div id="cartItems">
+            <p style="color: var(--text-dim); text-align: center; margin-top: 4rem;">Your cart is currently empty.</p>
+        </div>
+        <div style="position: absolute; bottom: 2rem; left: 2rem; right: 2rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: 600;">
+                <span>Subtotal</span>
+                <span>$0.00</span>
+            </div>
+            <button class="btn-primary" style="width: 100%;">Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        function selectColor(btn, colorName) {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('selectedColorName').innerText = colorName;
+        }
+
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+            document.getElementById('cartOverlay').classList.toggle('show');
+        }
+
+        // Simulating the addToCart from script.js if it's not loaded
+        window.addToCart = window.addToCart || function(id) {
+            alert('Added ' + id + ' to cart!');
+            toggleCart();
+        };
+    </script>
+</body>
+</html>

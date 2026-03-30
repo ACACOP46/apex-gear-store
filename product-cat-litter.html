@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+    <title>PureClump — Super-Clumping Tofu Cat Litter | APEX GEAR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Product Page Specific Styles */
+        :root {
+            --accent: #c9a55c;
+            --surface: #111118;
+        }
+        
+        .product-hero { padding: 140px 0 80px; background: var(--bg); }
+        .product-main-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
+        
+        /* Gallery */
+        .product-gallery { position: sticky; top: 100px; }
+        .main-image-container { 
+            background: var(--bg-card); 
+            border-radius: var(--radius); 
+            overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-image-container img { width: 100%; height: 100%; object-fit: contain; transition: var(--transition); }
+        .thumbnail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .thumbnail { 
+            aspect-ratio: 1/1; 
+            border-radius: var(--radius); 
+            overflow: hidden; 
+            cursor: pointer; 
+            border: 2px solid transparent;
+            background: var(--bg-card);
+            transition: var(--transition);
+        }
+        .thumbnail.active { border-color: var(--accent); }
+        .thumbnail img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+        .thumbnail:hover img, .thumbnail.active img { opacity: 1; }
+
+        /* Product Info */
+        .product-details-content .section-tag { margin-bottom: 12px; }
+        .product-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 10px; line-height: 1.1; }
+        .product-meta { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+        .product-stars { color: var(--accent); font-size: 1.1rem; }
+        .review-count { color: var(--text-muted); font-size: 0.9rem; }
+        .product-price-block { margin-bottom: 30px; }
+        .price-row { display: flex; align-items: center; gap: 15px; }
+        .current-price { font-size: 2.5rem; font-weight: 800; color: var(--text); }
+        .original-price { font-size: 1.2rem; color: var(--text-muted); text-decoration: line-through; }
+        .save-badge { background: #ff4444; color: white; padding: 4px 12px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; }
+        
+        .variant-selector { margin-bottom: 30px; }
+        .selector-label { display: block; font-weight: 600; margin-bottom: 12px; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .option-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+        .option-btn { 
+            padding: 10px 20px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.1); 
+            background: var(--bg-card); color: var(--text); cursor: pointer; transition: var(--transition);
+            font-size: 0.9rem; font-weight: 500;
+        }
+        .option-btn.active { border-color: var(--accent); background: rgba(201, 165, 92, 0.1); color: var(--accent); }
+        
+        .subscribe-save-card { 
+            background: linear-gradient(135deg, rgba(201, 165, 92, 0.15), rgba(0,0,0,0));
+            border: 1px solid rgba(201, 165, 92, 0.3);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .sub-title { font-weight: 700; color: var(--accent); }
+        .sub-discount { background: var(--accent); color: #000; font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; font-weight: 800; }
+        .sub-text { font-size: 0.85rem; color: var(--text-muted); }
+
+        .purchase-actions { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
+        .btn-add-to-cart { width: 100%; justify-content: center; font-size: 1.1rem; padding: 18px; }
+
+        .features-list { list-style: none; margin-bottom: 40px; }
+        .feature-item { display: flex; gap: 12px; margin-bottom: 12px; font-size: 0.95rem; color: var(--text-muted); }
+        .feature-item i { color: var(--accent); margin-top: 4px; }
+
+        /* Icon Grid */
+        .tech-specs-section { padding: 80px 0; background: var(--surface); }
+        .specs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+        .spec-item { text-align: center; padding: 30px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); }
+        .spec-icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+        .spec-item h4 { font-size: 1rem; margin-bottom: 8px; color: var(--accent); }
+        .spec-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Lifestyle Section */
+        .lifestyle-section { position: relative; padding: 120px 0; overflow: hidden; display: flex; align-items: center; }
+        .lifestyle-bg { position: absolute; inset: 0; z-index: -1; }
+        .lifestyle-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+        .lifestyle-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 30%, transparent 100%); }
+        .lifestyle-content { position: relative; z-index: 1; max-width: 500px; }
+
+        /* Specs Table */
+        .specs-table-section { padding: 100px 0; background: var(--bg); }
+        .table-container { max-width: 800px; margin: 0 auto; }
+        .specs-table { width: 100%; border-collapse: collapse; }
+        .specs-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .specs-table td { padding: 20px 0; }
+        .spec-label { font-weight: 700; color: var(--text-muted); width: 40%; }
+        .spec-value { color: var(--text); }
+
+        /* FAQ Accordion */
+        .faq-section { padding: 100px 0; background: var(--surface); }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--bg-card); border-radius: var(--radius); margin-bottom: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        .faq-question { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: var(--transition); }
+        .faq-question:hover { background: var(--bg-card-hover); }
+        .faq-question h4 { font-size: 1rem; margin: 0; }
+        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: all 0.4s ease; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .faq-item.active .faq-answer { padding: 0 25px 20px; max-height: 200px; }
+        .faq-icon { transition: transform 0.3s; color: var(--accent); }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+
+        /* Reviews */
+        .reviews-section { padding: 100px 0; background: var(--bg); }
+        .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .review-card { background: var(--bg-card); padding: 30px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.05); }
+        .review-stars { color: var(--accent); margin-bottom: 15px; }
+        .review-text { font-style: italic; color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+        .review-author { font-weight: 700; font-size: 0.9rem; }
+
+        @media (max-width: 968px) {
+            .product-main-grid { grid-template-columns: 1fr; gap: 40px; }
+            .product-gallery { position: relative; top: 0; }
+            .specs-grid { grid-template-columns: repeat(2, 1fr); }
+            .product-title { font-size: 2.5rem; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .lifestyle-overlay { background: rgba(10,10,15,0.8); }
+        }
+        
+        /* Sidebar Cart Styles (Required for script.js) */
+        .cart-sidebar { position: fixed; top: 0; right: 0; width: 400px; height: 100%; background: var(--bg-card); z-index: 2000; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); display: flex; flex-direction: column; }
+        .cart-sidebar.open { transform: translateX(0); box-shadow: -10px 0 50px rgba(0,0,0,0.5); }
+        .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1999; display: none; }
+        .cart-overlay.open { display: block; }
+        .cart-header { padding: 24px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .cart-items { flex: 1; overflow-y: auto; padding: 24px; }
+        .cart-footer { padding: 24px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
+        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; position: relative; }
+        .cart-item-img { width: 80px; height: 80px; background: var(--bg); border-radius: 8px; overflow: hidden; }
+        .cart-item-img img { width: 100%; height: 100%; object-fit: contain; }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 5px; color: var(--text); }
+        .cart-item-price { color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+        .cart-item-qty { display: flex; align-items: center; gap: 12px; }
+        .cart-item-qty button { background: none; border: 1px solid rgba(255,255,255,0.1); color: var(--text); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; }
+        .cart-item-remove { position: absolute; top: 0; right: 0; background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+<!-- ==================== ANNOUNCEMENT BAR ==================== -->
+<div class="announcement-bar">
+    <div class="announcement-track">
+        <span>FLASH SALE: 50% OFF PURECLUMP CAT LITTER — ENDS IN <span class="countdown-inline">00:00:00</span></span>
+        <span>FREE SHIPPING ON SUBSCRIPTIONS</span>
+        <span>OVER 3,000+ FIVE-STAR REVIEWS</span>
+        <span>FLASH SALE: 50% OFF PURECLUMP CAT LITTER — ENDS IN <span class="countdown-inline">00:00:00</span></span>
+    </div>
+</div>
+
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="index.html" class="logo">APEX<span>GEAR</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="index.html#why-us">Why Us</a></li>
+            <li><a href="index.html#reviews">Reviews</a></li>
+            <li><a href="index.html#about">About</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="cart-btn" id="cartBtn">
+                🛒<span class="cart-count" id="cartCount">0</span>
+            </button>
+            <a href="index.html#products" class="nav-cta">Shop Now</a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- ==================== PRODUCT HERO ==================== -->
+<section class="product-hero">
+    <div class="container">
+        <div class="product-main-grid">
+            <!-- Left: Gallery -->
+            <div class="product-gallery">
+                <div class="main-image-container" id="mainImage">
+                    <img src="https://sc02.alicdn.com/kf/Aae4abbcf589f4464ab577842c099f3c1U.png" alt="PureClump Tofu Cat Litter">
+                </div>
+                <div class="thumbnail-grid">
+                    <div class="thumbnail active" onclick="updateMainImage(this, 'https://sc02.alicdn.com/kf/Aae4abbcf589f4464ab577842c099f3c1U.png')">
+                        <img src="https://sc02.alicdn.com/kf/Aae4abbcf589f4464ab577842c099f3c1U.png" alt="Product View">
+                    </div>
+                    <div class="thumbnail" onclick="updateMainImage(this, 'https://sc02.alicdn.com/kf/A521baa7efb6547c2a6b74c61beaf488dl.png')">
+                        <img src="https://sc02.alicdn.com/kf/A521baa7efb6547c2a6b74c61beaf488dl.png" alt="Lifestyle View">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Product Info -->
+            <div class="product-details-content">
+                <div class="section-tag">APEX PET CARE</div>
+                <h1 class="product-title">PureClump — Super-Clumping Tofu Cat Litter</h1>
+                
+                <div class="product-meta">
+                    <div class="product-stars">★★★★★</div>
+                    <span class="review-count">3,891 Verified Reviews</span>
+                </div>
+
+                <div class="product-price-block">
+                    <div class="price-row">
+                        <span class="current-price">$14.99</span>
+                        <span class="original-price">$29.99</span>
+                        <span class="save-badge">SAVE 50%</span>
+                    </div>
+                </div>
+
+                <div class="variant-selector">
+                    <span class="selector-label">Select Scent</span>
+                    <div class="option-grid">
+                        <button class="option-btn active" onclick="selectVariant(this)">Unscented</button>
+                        <button class="option-btn" onclick="selectVariant(this)">Green Tea</button>
+                        <button class="option-btn" onclick="selectVariant(this)">Lavender</button>
+                    </div>
+                </div>
+
+                <div class="subscribe-save-card">
+                    <div class="sub-header">
+                        <span class="sub-title">Subscribe & Save</span>
+                        <span class="sub-discount">EXTRA 15% OFF</span>
+                    </div>
+                    <p class="sub-text">Never run out of litter again. Flexible delivery, skip or cancel anytime.</p>
+                </div>
+
+                <div class="purchase-actions">
+                    <button class="btn btn-primary btn-add-to-cart btn-glow" onclick="addToCart('pureclump')">
+                        Add to Cart — $14.99
+                    </button>
+                </div>
+
+                <ul class="features-list">
+                    <li class="feature-item"><i>✓</i> <span>99.9% Dust-Free — Better for your cat's lungs and your home</span></li>
+                    <li class="feature-item"><i>✓</i> <span>3-Second Super Fast Clumping — Rock-hard clumps for easy scooping</span></li>
+                    <li class="feature-item"><i>✓</i> <span>Activated Charcoal Odor Lock — Neutralizes odors for up to 30 days</span></li>
+                    <li class="feature-item"><i>✓</i> <span>Flushable & Biodegradable — Convenient disposal, septic safe</span></li>
+                    <li class="feature-item"><i>✓</i> <span>Safe for Kittens — 100% natural, food-grade tofu fiber</span></li>
+                </ul>
+
+                <div class="trust-badges" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                    <div class="trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                        <span>🛡️</span> 30-Day Freshness Guarantee
+                    </div>
+                    <div class="trust-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                        <span>🚚</span> Fast Worldwide Shipping
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SPECS GRID ==================== -->
+<section class="tech-specs-section">
+    <div class="container">
+        <div class="specs-grid">
+            <div class="spec-item">
+                <span class="spec-icon">🌿</span>
+                <h4>100% Natural</h4>
+                <p>Plant-based tofu fiber</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">⚡</span>
+                <h4>Instant Clump</h4>
+                <p>Clumps in 3 seconds</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">💨</span>
+                <h4>Zero Dust</h4>
+                <p>99.9% dust-free formula</p>
+            </div>
+            <div class="spec-item">
+                <span class="spec-icon">🚽</span>
+                <h4>Flushable</h4>
+                <p>Water-soluble disposal</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== LIFESTYLE SECTION ==================== -->
+<section class="lifestyle-section">
+    <div class="lifestyle-bg">
+        <img src="https://sc02.alicdn.com/kf/A521baa7efb6547c2a6b74c61beaf488dl.png" alt="Happy Cat">
+    </div>
+    <div class="lifestyle-overlay"></div>
+    <div class="container">
+        <div class="lifestyle-content">
+            <div class="section-tag">FOR HAPPY PAWS</div>
+            <h2 class="section-title">Clean Home. <br>Happy Cat.</h2>
+            <p class="section-sub" style="margin-left:0; margin-bottom: 30px;">PureClump isn't just litter — it's a commitment to your cat's health and your home's air quality. Say goodbye to chemical fragrances and dusty floors.</p>
+            <button class="btn btn-outline" onclick="addToCart('pureclump')">Upgrade Your Routine</button>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SPECS TABLE ==================== -->
+<section class="specs-table-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Product Specifications</h2>
+        </div>
+        <div class="table-container">
+            <table class="specs-table">
+                <tr>
+                    <td class="spec-label">Material</td>
+                    <td class="spec-value">Natural Tofu Fiber (Food Grade)</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Weight</td>
+                    <td class="spec-value">2.5kg / 6L Bag</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Scent Options</td>
+                    <td class="spec-value">Unscented, Green Tea, Lavender</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Clumping Speed</td>
+                    <td class="spec-value">&lt; 3 Seconds</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Packaging</td>
+                    <td class="spec-value">100% Compostable & Recyclable</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Longevity</td>
+                    <td class="spec-value">Approx. 30 days per cat</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== REVIEWS ==================== -->
+<section class="reviews-section">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">TESTIMONIALS</div>
+            <h2 class="section-title">What Cat Owners Say</h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Finally a litter that doesn't track all over my apartment! The clumps are so solid and it's so easy to scoop."</p>
+                <p class="review-author">Jessica P. — <span style="color:var(--text-dim); font-weight:400;">Verified Buyer</span></p>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Smells like nothing. Even after a week, my small laundry room stays fresh. The lavender scent is very subtle and nice."</p>
+                <p class="review-author">David K. — <span style="color:var(--text-dim); font-weight:400;">Verified Buyer</span></p>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Love that it's flushable. Makes cleaning the box so much faster and I feel better about the environment."</p>
+                <p class="review-author">Sarah M. — <span style="color:var(--text-dim); font-weight:400;">Verified Buyer</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Common Questions</h2>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <h4>Is it safe for kittens?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely. PureClump is made from 100% food-grade tofu fiber. It's completely non-toxic and safe even if accidentally ingested by curious kittens.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <h4>Can I really flush it down the toilet?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, PureClump is highly water-soluble. It dissolves quickly in water, making it safe to flush in small quantities. Please check your local plumbing regulations for specific guidance.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <h4>How long does one 6L bag last?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>On average, one bag lasts approximately 30 days for one adult cat. This can vary based on your cat's size and frequency of use.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <h4>Does it track around the house?</h4>
+                    <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>We've optimized the pellet shape and weight to minimize tracking. Most users report a significant reduction in tracking compared to traditional clay litter.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer style="padding: 80px 0 40px; background: #050508; border-top: 1px solid rgba(255,255,255,0.05);">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px;">
+            <div>
+                <a href="index.html" class="logo" style="margin-bottom: 20px; display: inline-block;">APEX<span>GEAR</span></a>
+                <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 300px;">Redefining daily essentials with premium materials and innovative design.</p>
+            </div>
+            <div>
+                <h5 style="margin-bottom: 20px; font-size: 1rem;">Shop</h5>
+                <ul style="list-style: none; font-size: 0.9rem; color: var(--text-muted);">
+                    <li style="margin-bottom: 10px;"><a href="product-cat-litter.html">Cat Litter</a></li>
+                    <li style="margin-bottom: 10px;"><a href="product-smart-glasses.html">Smart Glasses</a></li>
+                    <li style="margin-bottom: 10px;"><a href="product-projector.html">Projector</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 style="margin-bottom: 20px; font-size: 1rem;">Support</h5>
+                <ul style="list-style: none; font-size: 0.9rem; color: var(--text-muted);">
+                    <li style="margin-bottom: 10px;"><a href="#">Shipping Policy</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#">Refunds</a></li>
+                    <li style="margin-bottom: 10px;"><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 style="margin-bottom: 20px; font-size: 1rem;">Follow Us</h5>
+                <div style="display: flex; gap: 15px; font-size: 1.2rem;">
+                    <span>📸</span> <span>🐦</span> <span>🎥</span>
+                </div>
+            </div>
+        </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 40px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <p style="color: var(--text-dim); font-size: 0.8rem;">© 2026 APEX GEAR. All rights reserved.</p>
+            <div style="display: flex; gap: 20px; opacity: 0.5;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" height="20">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" height="15">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" height="20">
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ==================== CART SIDEBAR ==================== -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h3 style="font-family:'Playfair Display',serif;">Your Bag (<span id="cartItemCount">0</span>)</h3>
+        <button id="cartClose" style="background:none; border:none; color:var(--text); font-size:1.5rem; cursor:pointer;">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+        <!-- Cart items injected by script.js -->
+    </div>
+    <div class="cart-footer" id="cartFooter">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:700;">
+            <span>Subtotal</span>
+            <span id="cartSubtotal" style="color:var(--accent);">$0.00</span>
+        </div>
+        <button id="checkoutBtn" class="btn btn-primary" style="width:100%; justify-content:center;">Checkout Now</button>
+        <p style="text-align:center; margin-top:15px; font-size:0.8rem; color:var(--text-muted);">
+            <a href="#" id="continueShopping">or Continue Shopping</a>
+        </p>
+    </div>
+</aside>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script src="script.js"></script>
+<script>
+    function updateMainImage(thumb, src) {
+        document.getElementById('mainImage').querySelector('img').src = src;
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    }
+
+    function selectVariant(btn) {
+        btn.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function toggleFaq(item) {
+        item.classList.toggle('active');
+    }
+</script>
+</body>
+</html>

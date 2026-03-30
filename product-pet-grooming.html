@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawPerfect Smart Pet Grooming Kit | APEX GEAR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-color: #0a0a0f;
+            --gold: #c9a55c;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --card-bg: #15151e;
+            --border-color: #2a2a35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .cart-btn {
+            background: none;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cart-btn:hover {
+            background: var(--gold);
+            color: #000;
+        }
+
+        /* Product Section */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 4rem 0;
+        }
+
+        .product-gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .gallery-lifestyle img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .product-info h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .brand-label {
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stars {
+            color: var(--gold);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .price .old-price {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .discount-badge {
+            background: var(--gold);
+            color: #000;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 4px;
+        }
+
+        .description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .whats-included, .features {
+            margin-bottom: 2rem;
+        }
+
+        .whats-included h3, .features h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        ul li::before {
+            content: "•";
+            color: var(--gold);
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--gold);
+            border: none;
+            color: #000;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart-btn:hover {
+            opacity: 0.9;
+        }
+
+        .urgency {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Why Pets Love It */
+        .why-section {
+            padding: 6rem 0;
+            background: var(--card-bg);
+            text-align: center;
+        }
+
+        .why-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .why-item i {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .why-item h4 {
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+
+        /* Specs Table */
+        .specs-section {
+            padding: 6rem 0;
+        }
+
+        .specs-section h2 {
+            margin-bottom: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        tr {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem 0;
+        }
+
+        td:first-child {
+            font-weight: 700;
+            color: var(--gold);
+            width: 30%;
+        }
+
+        /* Reviews */
+        .reviews-section {
+            padding: 6rem 0;
+            background: var(--card-bg);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: var(--bg-color);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .review-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .review-author {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 6rem 0;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Cross Sell */
+        .cross-sell {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .cross-sell h2 {
+            margin-bottom: 3rem;
+        }
+
+        .cross-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .cross-item {
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+        }
+
+        .cross-item img {
+            width: 100%;
+            max-width: 200px;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .trust-badges {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            opacity: 0.6;
+        }
+
+        /* Cart Sidebar */
+        #cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100%;
+            background: var(--card-bg);
+            z-index: 2000;
+            transition: right 0.3s ease;
+            padding: 2rem;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+
+        #cart-sidebar.active {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .close-cart {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: repeat(2, 1fr); }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .cross-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="../index.html" class="logo">APEX GEAR</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="#">Collections</a>
+            <a href="#">Innovation</a>
+            <a href="#">Contact</a>
+        </div>
+        <button class="cart-btn" onclick="toggleCart()">CART (0)</button>
+    </nav>
+
+    <div class="container">
+        <section class="product-grid">
+            <div class="product-gallery">
+                <div class="gallery-main">
+                    <img src="https://sc02.alicdn.com/kf/A7458fb5f5edd4fec87a37211edcfd31fl.png" alt="PawPerfect Grooming Kit">
+                </div>
+                <div class="gallery-lifestyle">
+                    <img src="https://sc02.alicdn.com/kf/A264e569dd01144edae1ae9a6d14b28a7t.png" alt="Dog being groomed">
+                </div>
+            </div>
+
+            <div class="product-info">
+                <span class="brand-label">APEX GEAR PREMIER</span>
+                <h1>PawPerfect — Smart Pet Grooming Kit (5-in-1)</h1>
+                
+                <div class="rating">
+                    <span class="stars">★★★★★</span>
+                    <span>4.9 (2,156 Reviews)</span>
+                </div>
+
+                <div class="price">
+                    $49.99
+                    <span class="old-price">$99.99</span>
+                    <span class="discount-badge">SAVE 50%</span>
+                </div>
+
+                <p class="description">
+                    The ultimate stress-free grooming experience for your furry companions. Engineered with precision and pet comfort in mind, the PawPerfect kit combines professional-grade tools with whisper-quiet technology.
+                </p>
+
+                <div class="whats-included">
+                    <h3>5-in-1 Professional Kit Includes:</h3>
+                    <ul>
+                        <li>Electric Nail Grinder (2 Speeds)</li>
+                        <li>Self-Cleaning Slicker Brush</li>
+                        <li>High-Density De-matting Comb</li>
+                        <li>Ultra-Fine Flea Comb</li>
+                        <li>Luxury Velvet Storage Pouch</li>
+                    </ul>
+                </div>
+
+                <div class="features">
+                    <h3>Premium Features:</h3>
+                    <ul>
+                        <li>Whisper-Quiet Motor (<40dB) - Zero anxiety</li>
+                        <li>Precision LED Light for safe nail grinding</li>
+                        <li>USB-C Quick Charge (4-hour battery life)</li>
+                        <li>Waterproof IPX6 - Easy cleaning</li>
+                        <li>Ergonomic non-slip grip handles</li>
+                    </ul>
+                </div>
+
+                <button class="add-to-cart-btn" onclick="addToCart('pawperfect')">Add to Cart</button>
+                <p class="urgency">2,156 pet parents love this! Free shipping included.</p>
+            </div>
+        </section>
+    </div>
+
+    <section class="why-section">
+        <div class="container">
+            <h2>Why Pets (and Parents) Love It</h2>
+            <div class="why-grid">
+                <div class="why-item">
+                    <span style="font-size: 3rem;">🤫</span>
+                    <h4>Ultra Quiet</h4>
+                    <p>Sub-40dB motor ensures even the most nervous pets stay calm.</p>
+                </div>
+                <div class="why-item">
+                    <span style="font-size: 3rem;">🛡️</span>
+                    <h4>Pain-Free</h4>
+                    <p>Safety guards and LED lights prevent over-cutting or injuries.</p>
+                </div>
+                <div class="why-item">
+                    <span style="font-size: 3rem;">🔋</span>
+                    <h4>Always Ready</h4>
+                    <p>4 hours of continuous use on a single USB-C charge.</p>
+                </div>
+                <div class="why-item">
+                    <span style="font-size: 3rem;">👨‍⚕️</span>
+                    <h4>Vet Recommended</h4>
+                    <p>Used and endorsed by grooming professionals worldwide.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="specs-section">
+            <h2>Technical Specifications</h2>
+            <table>
+                <tr>
+                    <td>Motor Noise</td>
+                    <td>Less than 40dB (Whisper-Quiet)</td>
+                </tr>
+                <tr>
+                    <td>Battery Life</td>
+                    <td>2000mAh (4 Hours runtime)</td>
+                </tr>
+                <tr>
+                    <td>Charging Type</td>
+                    <td>USB-C Fast Charging</td>
+                </tr>
+                <tr>
+                    <td>Waterproof Rating</td>
+                    <td>IPX6 (Washable heads)</td>
+                </tr>
+                <tr>
+                    <td>Grinder Speeds</td>
+                    <td>7000 RPM / 8500 RPM</td>
+                </tr>
+                <tr>
+                    <td>Compatibility</td>
+                    <td>Dogs, Cats, Rabbits (All sizes)</td>
+                </tr>
+            </table>
+        </section>
+    </div>
+
+    <section class="reviews-section">
+        <div class="container">
+            <h2>Customer Experiences</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars" style="margin-bottom: 1rem;">★★★★★</div>
+                    <p>"I have a very nervous Golden Retriever who hates nail clipping. This grinder was a game changer! He actually fell asleep during the session."</p>
+                    <span class="review-author">Sarah K. - Verified Buyer</span>
+                </div>
+                <div class="review-card">
+                    <div class="stars" style="margin-bottom: 1rem;">★★★★★</div>
+                    <p>"The self-cleaning brush is magic. One click and the hair is gone. The build quality feels very premium, definitely worth the price."</p>
+                    <span class="review-author">David L. - Professional Groomer</span>
+                </div>
+                <div class="review-card">
+                    <div class="stars" style="margin-bottom: 1rem;">★★★★★</div>
+                    <p>"Finally a quiet enough tool for my cats. The LED light is so helpful for seeing the quick. Best grooming purchase I've made."</p>
+                    <span class="review-author">Emily R. - Multi-pet Owner</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">How quiet is the motor? <span>+</span></div>
+                <div class="faq-answer">The motor operates at under 40 decibels, which is quieter than a typical electric toothbrush. This helps prevent pet anxiety.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">Is it safe for small pets? <span>+</span></div>
+                <div class="faq-answer">Yes, the grinder features multiple ports for different nail sizes, making it suitable for kittens, small dogs, and large breeds alike.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">How do I clean the tools? <span>+</span></div>
+                <div class="faq-answer">The main tool heads are IPX6 waterproof and can be rinsed under running water. The slicker brush is self-cleaning with a single button push.</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('active')">
+                <div class="faq-question">What is the warranty period? <span>+</span></div>
+                <div class="faq-answer">We offer a 1-year replacement warranty and a 30-day money-back guarantee for all APEX GEAR products.</div>
+            </div>
+        </section>
+
+        <section class="cross-sell">
+            <h2>Complete the Luxury Experience</h2>
+            <div class="cross-grid">
+                <div class="cross-item">
+                    <img src="https://sc02.alicdn.com/kf/H754f2854917f4657a87a3219edcfd31fl.png" alt="Pet Hair Vacuum" onerror="this.src='https://via.placeholder.com/200?text=Pet+Vacuum'">
+                    <h4>Apex Pet Hair Vacuum</h4>
+                    <p>$89.99</p>
+                    <button class="cart-btn" style="margin-top: 1rem;">View Product</button>
+                </div>
+                <div class="cross-item">
+                    <img src="https://sc02.alicdn.com/kf/A854f2854917f4657a87a3219edcfd31fl.png" alt="Organic Shampoo" onerror="this.src='https://via.placeholder.com/200?text=Organic+Shampoo'">
+                    <h4>Silk Coat Organic Shampoo</h4>
+                    <p>$24.99</p>
+                    <button class="cart-btn" style="margin-top: 1rem;">View Product</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p class="logo">APEX GEAR</p>
+            <p style="color: var(--text-secondary); margin: 1rem 0;">Precision tools for the modern lifestyle.</p>
+            <div class="trust-badges">
+                <span>🔒 SECURE CHECKOUT</span>
+                <span>✈️ WORLDWIDE SHIPPING</span>
+                <span>⭐ 1-YEAR WARRANTY</span>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-secondary);">© 2026 APEX GEAR INC. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <div id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <span class="close-cart" onclick="toggleCart()">×</span>
+        </div>
+        <div id="cart-items">
+            <p style="color: var(--text-secondary); text-align: center; margin-top: 5rem;">Your cart is empty.</p>
+        </div>
+        <div id="cart-footer" style="position: absolute; bottom: 2rem; width: 85%;">
+            <button class="add-to-cart-btn">Checkout</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('active');
+        }
+
+        // Simple mock for addToCart if the external script isn't loaded
+        function addToCart(productId) {
+            console.log('Added to cart:', productId);
+            alert('Added to cart: PawPerfect Smart Grooming Kit');
+            // Logic to update cart count or sidebar would go here
+        }
+    </script>
+</body>
+</html>
